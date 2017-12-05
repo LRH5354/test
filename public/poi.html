@@ -36,7 +36,7 @@
 </body>
 </html>
 <script type="text/javascript">
-    // 百度地图API功能
+    // 百度地图API功能 该页面已经成功 动态分页
 
 var map;
     var midu=0.01 ;
@@ -54,46 +54,49 @@ var map;
 
             if (local.getStatus() == BMAP_STATUS_SUCCESS) {
                 if( results.getNumPois()>=760){
-                   // local.searchInBounds(keywords[kindex],)
-                    console.log(results.bounds)
-                   var temp= splitbound(results.bounds)
-                    console.log("一个方框大于760")
-                 //    console.log(temp)
-                  for(var i=0;i<4;i++){
-                      local.searchInBounds(keywords[kindex],temp[i])
-                  }
+
+                           // local.searchInBounds(keywords[kindex],)
+
+                           var temp= splitbound(results.bounds);
+
+                         //   console.log("一个方框大于760")
+                         //    console.log(temp)
+                          for(var i=0;i<4;i++){
+
+                              local.searchInBounds(keywords[kindex],temp[i])
+
+                          }
                 }else
-                    {
+                            {
+                                runTips(jindu);
+                                jindu++;
+                                showretangal(results.bounds);
+                               // console.log(results)
+//                            console.log(index, "成功-------------------------------------------------------------")
+//                            console.log("总结果数：", results.getNumPois())
+//                            console.log("当前页结果数：", results.getCurrentNumPois())
+//                            console.log("当前页数：", results.getPageIndex())
+//                            console.log("总页数 ", results.getNumPages())
+//                            console.log("成功-------------------------------------------------------------")
+//                            index++;
 
-                        runTips(jindu);
-                        jindu++;
-                        showretangal(results.bounds);
-                        console.log(results)
-                    console.log(index, "成功-------------------------------------------------------------")
-                    console.log("总结果数：", results.getNumPois())
-                    console.log("当前页结果数：", results.getCurrentNumPois())
-                    console.log("当前页数：", results.getPageIndex())
-                    console.log("总页数 ", results.getNumPages())
-                    console.log("成功-------------------------------------------------------------")
-                    index++;
+                            for (var i = 0; i < results.getCurrentNumPois() ; i++) {
+                                var str =results.getPoi(i).province+ ", "+ results.getPoi(i).city + ", " + results.getPoi(i).title + ", " + results.getPoi(i).point.lng + ", " +results.getPoi(i).point.lat+ ", " +results.getPoi(i).address + ", " + results.getPoi(i).phoneNumber+ ", " + results.getPoi(i).tags+ ", " + results.keyword;
+                                rs[i] = str;
+                            }
+                            console.log(rs)
 
-                    for (var i = 0; i < results.getCurrentNumPois() ; i++) {
-                        var str =results.getPoi(i).province+ ", "+ results.getPoi(i).city + ", " + results.getPoi(i).title + ", " + results.getPoi(i).point.lng + ", " +results.getPoi(i).point.lat+ ", " +results.getPoi(i).address + ", " + results.getPoi(i).phoneNumber+ ", " + results.getPoi(i).tags+ ", " + results.keyword;
-                        rs[i] = str;
-                    }
-                    console.log(rs)
-
-                    if (results.getPageIndex() < results.getNumPages() - 1) {
-                        console.log("当前页数",results.getPageIndex())
-                        local.gotoPage(results.getPageIndex() + 1);
-                    }
-                }
+                            if (results.getPageIndex() < results.getNumPages() - 1) {
+                                console.log("当前页数",results.getPageIndex())
+                                local.gotoPage(results.getPageIndex() + 1);
+                            }
+                  }
 
             }else
-                {
-                index++;
-                console.log(index,"失败------------------------------------------------------------")
-                }
+                        {
+                        index++;
+                        console.log(index,"失败------------------------------------------------------------")
+                        }
 
 
         }
@@ -155,7 +158,9 @@ var map;
     //判断矩形是否在行政区内
 
     function runTips(message) {
+
         document.getElementById("tips").innerHTML=message+"/"+BL.length;
+
     }
 
     function  getparam(){
@@ -181,6 +186,7 @@ var map;
        map = new BMap.Map("allmap");            // 创建Map实例
         map.centerAndZoom(new BMap.Point(112.968386, 22.52185), 11);
         map.enableScrollWheelZoom();           //启用滚轮放大缩小
+
     }
 
     function loadScript() {
@@ -193,9 +199,12 @@ var map;
 
 
 
-    function addchoose(_id, _fieldchossed) {
+    function addchoose(_id, _fieldchossed)
+    {
         for (var i = 0; i < _fieldchossed.length; i++) { $("#"+_id).append("<label><input type=\"checkbox\" name=\"choose\" value=" + _fieldchossed[i] + ">" + _fieldchossed[i] + "<a></a>") };
     }
+
+
     function querychoose(_id) {
         var fieldchossed=[];
         var $checkbox = $("#"+_id+" input[name=\"choose\"]:checked")
@@ -219,16 +228,15 @@ var map;
                 bounds[i] = ply.getBounds();
                 map.addOverlay(ply);
             }
-            var pStart=bounds[0].getSouthWest();
-            var pEnd=bounds[0].getNorthEast();
-            var polygon = new BMap.Polygon([
-                new BMap.Point(pStart.lng, pStart.lat),
-                new BMap.Point(pEnd.lng, pStart.lat),
-                new BMap.Point(pEnd.lng, pEnd.lat),
-                new BMap.Point(pStart.lng, pEnd.lat)
-            ], { strokeColor: "blue", strokeWeight: 6, strokeOpacity: 0.5 });
-          //  map.addOverlay(polygon);
-
+//            var pStart=bounds[0].getSouthWest();
+//            var pEnd=bounds[0].getNorthEast();
+//            var polygon = new BMap.Polygon([
+//                new BMap.Point(pStart.lng, pStart.lat),
+//                new BMap.Point(pEnd.lng, pStart.lat),
+//                new BMap.Point(pEnd.lng, pEnd.lat),
+//                new BMap.Point(pStart.lng, pEnd.lat)
+//            ], { strokeColor: "blue", strokeWeight: 6, strokeOpacity: 0.5 });
+//
 
             local = new BMap.LocalSearch(citys[cindex], options); //设置local的初始化设置
 
@@ -237,6 +245,7 @@ var map;
             local.setLocation(citys[cindex])
 
             local.searchInBounds(keywords[kindex],bounds[0])
+
             runTips(jindu);
         });
     }
@@ -250,9 +259,10 @@ var map;
             citys=tempC
 
             // var tempK=querychoose("keyword");
-            var tempK=["餐饮","超市","电影院","大学","菜市场"]
+            var tempK=["超市","电影院","大学","菜市场","餐饮"]
 
             keywords=tempK;
+
             getBoundary(citys[cindex])
 
         })
