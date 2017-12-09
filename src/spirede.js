@@ -23,6 +23,7 @@ function fetchPage(x) {
 }
 
 function startRequest(x) {
+
     // 采用http模块向服务器发起一次get请求
     http.get(x, function (res) {
         var html = '';          // 用来存储请求网页的整个html内容
