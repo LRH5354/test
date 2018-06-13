@@ -6,11 +6,10 @@ var router = express.Router();
 var mysql = require('mysql');
 /*  将数据存到数据库  */
 
-
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : '123456',
+    password : 'root',
     database : 'test'
 });
 //var  sql = 'SELECT * FROM rs';
@@ -21,9 +20,8 @@ connection.connect();
 router.post('/', function(req, res, next) {
 
     var addSqlParams=[];
-    var path = req.url.replace(/\/?(?:\?.*)?$/, '');
-    console.log(path);
-    var data =  req.body;
+
+      var data =  req.body;
 
         for (var index in data) {
             var arr = data[index].split(', ');
@@ -41,9 +39,8 @@ router.post('/', function(req, res, next) {
                 }
             });
 
-    // });
     res.writeHead(200,{'content-Type':'text/plain'});
-    res.end("成功");
+    res.end("接受成功");
  });
 
 
